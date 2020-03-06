@@ -1,0 +1,87 @@
+#ifndef MY_FORMAT_H
+#define MY_FORMAT_H
+#include <string>
+#include <sstream>
+#include <vector>
+#include <ostream>
+#include <algorithm>
+
+namespace fmt
+{
+
+/** Final function - for the one with vargs only
+ *
+ */
+static std::string format_to_string(std::string return_string, const std::vector<std::string>& vs) {
+  if (vs.size() == 0) return return_string;
+  // removing this makes just a little difference ..
+  // is that really true
+  unsigned short index = vs.size()-1;
+  std::string::size_type pos = 0u;
+  while((pos = return_string.find("{}", pos)) != std::string::npos){
+     return_string.replace(pos, 2, vs[index]);
+     if (index == 0) break;
+     --index;
+     pos += vs[index].size();
+  }
+  return return_string;
+}
+
+template <typename T>
+void format_lower(std::vector<std::string>& vs, T t) 
+{
+    std::stringstream ss;
+    ss << t;
+    vs.push_back(ss.str());
+}
+
+static void format_lower(std::vector<std::string>& vs, std::string t) 
+{
+    vs.push_back(t);
+}
+
+template<typename T, typename... Args>
+void format_lower(std::vector<std::string>& vs, T t, Args... args) // recursive variadic function
+{
+    format_lower(vs, args...);
+    std::stringstream ss;
+    ss << t;
+    vs.push_back(ss.str());
+}
+
+/** Entry function - vargs
+ *
+ */
+template<typename... Args>
+std::string format(std::string t, Args... args) // recursive variadic function
+{
+    std::vector<std::string> vs;
+    //vs.reserve(6);
+    // adds abit vs.reserve(std::count(t.begin(), t.end(), '{'));
+    format_lower(vs, args...);
+    return format_to_string(t, vs);
+}
+
+/** Entry function - no vargs - for non strings
+ *
+ */
+template <typename T>
+std::string format(T t) 
+{
+    std::stringstream ss;
+    ss << t;
+    return ss.str();
+}
+// these are used alot
+static std::string format(const std::string& t) 
+{
+    return t;
+}
+// this is also used alot ..
+static std::string format(std::stringstream & t) 
+{
+    return t.str();
+}
+
+}
+#endif
