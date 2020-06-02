@@ -1,0 +1,168 @@
+#!/bin/bash
+#--------------------------------------------------------#
+# Setup
+#--------------------------------------------------------#
+#set -e 
+UNIT=0
+CLEAN=0
+CONAN=0
+GIT=0
+MAKE=1
+SETUP=1
+LOCATION="./"
+#--------------------------------------------------------#
+# Args
+#--------------------------------------------------------#
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -u|--unit)
+    UNIT=1
+    shift # past 
+    ;;
+    -c|--clean)
+    CLEAN=1
+    shift # past 
+    ;;
+    -g|--git)
+    GIT=1
+    shift # past 
+    ;;
+    -i|--install)
+    CONAN=1
+    MAKE=0
+    SETUP=0
+    shift # past 
+    ;;
+    -l|--location)
+    LOCATION="${2}"
+    shift # past argument=value
+    shift # past argument=value
+    ;;
+    *)
+    echo "Unknown option!"
+    shift # past argument=value
+    ;;
+esac
+done
+
+if [ -d $LOCATION  ] 
+then
+    echo "Find project $LOCATION"
+    cdir=`pwd`/$LOCATION
+    cd $cdir
+    bdir=$cdir/build.gcc
+else
+    echo "Find project $LOCATION not found"
+    UNIT=0
+    CLEAN=0
+    MAKE=0
+    SETUP=0
+    ls -trdF ams*
+fi
+
+#--------------------------------------------------------#
+# Check location
+#--------------------------------------------------------#
+origloc=`pwd`
+while true; do 
+    echo "# Find project `pwd` "
+    ls -d .git
+    RESULT=$?
+    if [ $RESULT -eq 0 ]; then
+      echo "# Find project `pwd` ** Building `pwd` **"
+      break
+    else
+      cd ..
+      if [[ `pwd` == "/" ]]; then
+        cd $origloc
+        break
+      fi
+    fi
+done
+cdir=`pwd`
+cd $cdir
+bdir=$cdir/build.gcc
+pwd
+
+#--------------------------------------------------------#
+# Run clean
+#--------------------------------------------------------#
+if [ $CLEAN -eq 1 ] 
+then
+    rm -rf $bdir
+fi
+
+#--------------------------------------------------------#
+# Run setup
+#--------------------------------------------------------#
+if [ $SETUP -eq 1 ] 
+then
+    if [ -d "$bdir" ] 
+    then
+        echo "Directory $bdir exists." 
+        cd $bdir
+    else
+        echo "Error: Directory $bdir does not exists."
+        mkdir $bdir
+        cd $bdir
+        conan install .. --generator cmake --build=missing --profile=gcc 
+        #~/cmake -G "Unix Makefiles" ../src 
+        ~/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" ../src 
+    fi
+fi
+
+#--------------------------------------------------------#
+# Run git
+#--------------------------------------------------------#
+if [ $GIT -eq 1 ] 
+then
+    git pull origin master
+fi
+
+#--------------------------------------------------------#
+# Run make
+#--------------------------------------------------------#
+if [ $MAKE -eq 1 ] 
+then
+    make VERBOSE=1 |& tee /tmp/b.log
+    grep '\*\*\*' /tmp/b.log && echo "MAKE FAILED"
+    grep '\*\*\*' /tmp/b.log && UNIT=0
+fi
+
+#--------------------------------------------------------#
+# Run test
+#--------------------------------------------------------#
+if [ $UNIT -eq 1 ] 
+then
+    echo "Running tests.."
+    ~/ctest --output-on-failure |& tee /tmp/t.log
+    echo "RE-Running tests for log.."
+    ~/ctest --full-trace --output-on-failure -VV --output-log /tmp/tt.log > /dev/null 2>&1
+    echo "Done"
+    ls -latrd /tmp/tt.log
+    echo "PASS `cat /tmp/tt.log | grep '\[       OK \]' | grep " ms" |wc -l`"
+    echo "FAIL `cat /tmp/tt.log | grep '\[  FAILED  \]' | grep " ms" |wc -l`"
+    grep -n '\[  FAILED  \]' /tmp/tt.log | grep " ms" | grep ":\["
+fi
+
+#--------------------------------------------------------#
+# Run conan install
+#--------------------------------------------------------#
+if [ $CONAN -eq 1 ] 
+then
+    echo "Running normal conan build"
+    rm -rf $bdir
+    pwd
+    mycwd=`pwd`
+    mkdir build.gcc
+    cd build.gcc
+    conan install ../src --generator cmake --build=missing --profile ../profiles/gcc
+    ~/cmake -G Ninja ../src
+    ~/ninja
+    echo "Running conan create gavin/dev"
+    cd $mycwd
+    conan create . gavin/dev
+fi
