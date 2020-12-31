@@ -5,10 +5,10 @@
 #ifndef GNOMEHW_MYUTILS_H
 #define GNOMEHW_MYUTILS_H
 
+namespace mygnome {
+  class myUtils {
 
-class myUtils {
-
-};
-
+  };
+}
 
 #endif //GNOMEHW_MYUTILS_H

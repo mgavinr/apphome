@@ -5,6 +5,7 @@ set -x
 
 rm -rf cmake-build-debug
 mkdir cmake-build-debug
+git checkout cmake-build-debug/.gitignore
 pushd cmake-build-debug
 
 echo "-------------------- CONAN SETUP/BUILD -----------------------" > /dev/null
@@ -18,6 +19,7 @@ popd
 
 rm -rf cmake-build-release
 mkdir cmake-build-release
+git checkout cmake-build-debug/.gitignore
 pushd cmake-build-release
 
 echo "-------------------- CONAN SETUP/BUILD -----------------------" > /dev/null

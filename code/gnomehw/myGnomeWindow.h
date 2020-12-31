@@ -7,10 +7,19 @@
 
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+//
+//
 
-class myGnomeWindow : public Gtk::Window {
+namespace mygnome {
+  class myGnomeWindow : public Gtk::Window {
+  public:
+    myGnomeWindow();
+    ~myGnomeWindow() override;
 
-};
-
+  protected:  // private
+    void on_button_clicked();
+    Gtk::Button m_button;
+  };
+}
 
 #endif //GNOMEHW_MYGNOMEWINDOW_H
