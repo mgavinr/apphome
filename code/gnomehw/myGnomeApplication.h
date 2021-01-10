@@ -5,10 +5,14 @@
 #ifndef GNOMEHW_MYGNOMEAPPLICATION_H
 #define GNOMEHW_MYGNOMEAPPLICATION_H
 
+// cpp
+// theirs
 #include <gtkmm.h>
 #include <gtkmm/application.h>
+// mine
 
 namespace mygnome {
+  class myGnomeMenuApplication;
   class myGnomeApplication : public Gtk::Application {
   public:
     // Class
@@ -21,12 +25,11 @@ namespace mygnome {
     // Methods mine
     void create_window();
     void on_window_hide(Gtk::Window* window);
-    void on_menu_file_new_generic();
-    void on_menu_file_quit();
-    void on_menu_help_about();
+    void app_quit();
     // Fields
     //Glib::RefPtr<Gtk::Application> m_app;
     Glib::RefPtr<Gtk::Builder> m_builder;
+    std::shared_ptr<myGnomeMenuApplication> m_menu;
   };
 }
 
