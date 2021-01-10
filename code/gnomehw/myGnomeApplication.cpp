@@ -6,6 +6,7 @@
 //
 #include <gtkmm/application.h>
 #include <glibmm.h>
+#include <lidebug.h>
 //
 #include "myGnomeApplication.h"
 #include "myGnomeMenuApplication.h"
@@ -17,13 +18,16 @@ myGnomeApplication::~myGnomeApplication() {
 }
 
 myGnomeApplication::myGnomeApplication(int argc, char **argv) {
+  DBENTER("myGnomeApplication");
   Glib::set_application_name("Main Menu Example");
   const int status = run(argc, argv);
-  std::cout << "Exit Status " << status;
+  DBTRACE("Exit Status %d", status);
+  DBVRETURN()
 }
 
 void myGnomeApplication::on_startup()
 {
+  DBTRACE(G_STRFUNC);
   Gtk::Application::on_startup();
   m_builder = Gtk::Builder::create();
   m_menu = std::make_shared<myGnomeMenuApplication>(*this);
@@ -43,7 +47,7 @@ void myGnomeApplication::on_startup()
 
 void myGnomeApplication::on_activate()
 {
-  //std::cout << "debug1: " << G_STRFUNC << std::endl;
+  DBTRACE(G_STRFUNC);
   // The application has been started, so let's show a window.
   // A real application might want to reuse this window in on_open(),
   // when asked to open a file, if no changes have been made yet.
@@ -52,6 +56,7 @@ void myGnomeApplication::on_activate()
 
 void myGnomeApplication::create_window()
 {
+  DBTRACE(G_STRFUNC);
   auto win = new myGnomeWindow();
 
   //Make sure that the application runs for as long this window is still open:
@@ -68,12 +73,13 @@ void myGnomeApplication::create_window()
 
 void myGnomeApplication::on_window_hide(Gtk::Window* window)
 {
+  DBTRACE(G_STRFUNC);
   delete window;
 }
 
 void myGnomeApplication::app_quit()
 {
-  std::cout << G_STRFUNC << std::endl;
+  DBTRACE(G_STRFUNC);
   quit(); // Not really necessary, when Gtk::Widget::hide() is called.
 
   // Gio::Application::quit() will make Gio::Application::run() return,

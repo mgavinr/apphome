@@ -5,6 +5,7 @@
 // cpp
 #include <iostream>
 // theirs
+#include <lidebug.h>
 // mine
 #include "myGnomeMenuApplication.h"
 #include "myGnomeApplication.h"
