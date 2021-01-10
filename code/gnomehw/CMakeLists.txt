@@ -30,5 +30,5 @@ pkg_check_modules(GTKMM gtkmm-4.0)
 # ----------------
 link_directories(${GTKMM_LIBRARY_DIRS})
 include_directories(${GTKMM_INCLUDE_DIRS})
-add_executable(gnomehw main.cpp myUtils.cpp myUtils.h myGnomeWindow.cpp myGnomeWindow.h)
+add_executable(gnomehw main.cpp myUtils.cpp myUtils.h myGnomeWindow.cpp myGnomeWindow.h myGnomeApplication.cpp myGnomeApplication.h)
 target_link_libraries(gnomehw ${GTKMM_LIBRARIES})

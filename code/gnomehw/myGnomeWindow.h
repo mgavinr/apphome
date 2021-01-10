@@ -7,17 +7,21 @@
 
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+#include <gtkmm/applicationwindow.h>  // why clion why why the horror
+
 //
 //
 
 namespace mygnome {
-  class myGnomeWindow : public Gtk::Window {
+  class myGnomeWindow : public Gtk::ApplicationWindow {
   public:
+    // Class
     myGnomeWindow();
     ~myGnomeWindow() override;
-
-  protected:  // private
+    // Methods theirs
+    // Methods mine
     void on_button_clicked();
+    // Fields
     Gtk::Button m_button;
   };
 }
