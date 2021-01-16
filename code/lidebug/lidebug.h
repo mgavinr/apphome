@@ -28,10 +28,10 @@ void li_debug_write_header(char*, char*, char*);
 void li_debug_func_init(void);
 
 int li_debug_return(E_RT_TYPE a_type, ...);
+void DBLOGP(const char *string1, ...);
+void DBLOGPE(const char *string1, ...);
 void DBLOG(const char *string1, ...);
 void DBLOGE(const char *string1, ...);
-void DBLOGS(const char *string1, ...);
-void DBLOGSE(const char *string1, ...);
 void DBTRACE(const char *string1, ...);
 void DBTRACEE(const char *string1, ...);
 void DBENTER(const char *string1, ...);

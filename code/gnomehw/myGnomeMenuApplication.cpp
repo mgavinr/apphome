@@ -3,7 +3,7 @@
 //
 
 // cpp
-#include <iostream>
+#include <exception>
 // theirs
 #include <lidebug.h>
 // mine
@@ -132,21 +132,22 @@ mygnome::myGnomeMenuApplication::myGnomeMenuApplication(mygnome::myGnomeApplicat
   }
   catch (const Glib::Error& ex)
   {
-    std::cerr << "Building menus failed: " << ex.what();
+    DBLOGE("Building menus failed: %s", ex.what());
   }
-
 }
+
 void myGnomeMenuApplication::on_menu_file_new_generic()
 {
-  std::cout << "A File|New menu item was selected." << std::endl;
+  DBLOG("A File|New menu item selected");
 }
 
 void myGnomeMenuApplication::on_menu_file_quit()
 {
+  DBLOG("A File|Quit menu item selected");
   m_app.app_quit();
 }
 
 void myGnomeMenuApplication::on_menu_help_about()
 {
-  std::cout << "Help|About App was selected." << std::endl;
+  DBLOG("A Help|About menu item selected");
 }

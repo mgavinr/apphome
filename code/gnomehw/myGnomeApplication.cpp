@@ -37,7 +37,7 @@ void myGnomeApplication::on_startup()
   auto gmenu = std::dynamic_pointer_cast<Gio::Menu>(object);
   if (!gmenu)
   {
-    g_warning("GMenu not found");
+    DBLOGE("GMenu not found");
   }
   else
   {
@@ -64,8 +64,8 @@ void myGnomeApplication::create_window()
 
   //Delete the window when it is hidden.
   //That's enough for this simple example.
-  win->signal_hide().connect(sigc::bind(
-      sigc::mem_fun(*this, &myGnomeApplication::on_window_hide), win));
+  win->signal_hide().connect(
+    sigc::bind(sigc::mem_fun(*this, &myGnomeApplication::on_window_hide), win) );
 
   win->set_show_menubar();
   win->show();
@@ -90,6 +90,7 @@ void myGnomeApplication::app_quit()
   // must remove the window from the application. One way of doing this
   // is to hide the window.
   std::vector<Gtk::Window*> windows = get_windows();
-  if (windows.size() > 0)
+  if (windows.size() > 0) {
     windows[0]->hide(); // In this simple case, we know there is only one window.
+  }
 }

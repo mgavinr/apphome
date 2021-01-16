@@ -390,7 +390,7 @@ void DBTRACEE(const char *string1, ...)
 }
 
 // STDOUT and if there is a logfile goes there too and trace file
-void DBLOG(const char *string1, ...)
+void DBLOGP(const char *string1, ...)
 {
 	static char buffer[LINE_MAX*10*3];
 	static char buffer2[LINE_MAX*10+1];
@@ -438,7 +438,7 @@ void DBLOG(const char *string1, ...)
 }
 
 // STDOUT STDERR and if there is a log file goes there too and a trace file
-void DBLOGE(const char *string1, ...)
+void DBLOGPE(const char *string1, ...)
 {
 	static char buffer[LINE_MAX*10*3];
 	static char buffer2[LINE_MAX*10+1];
@@ -489,7 +489,7 @@ void DBLOGE(const char *string1, ...)
 
 
 // STDOUT and if there is a logfile goes there too, also prints the thread 
-void DBLOGS(const char *string1, ...)
+void DBLOG(const char *string1, ...)
 {
 	static char buffer[LINE_MAX*10*3];
 	static char buffer2[LINE_MAX*10+1];
@@ -538,7 +538,7 @@ void DBLOGS(const char *string1, ...)
 }
 
 // STDOUT STDERR and if there is a logfile goes there too and a trace file, prints :E: 
-void DBLOGSE(const char *string1, ...)
+void DBLOGE(const char *string1, ...)
 {
 	static char buffer[LINE_MAX*10*3];
 	static char buffer2[LINE_MAX*10+1];
