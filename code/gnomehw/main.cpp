@@ -3,6 +3,7 @@
 #include <lidebug.h>
 // mine
 #include "myGnomeApplication.h"
+#include "myGnomeException.h"
 
 int main(int argc, char* argv[]) {
   auto rv = 0;
@@ -14,6 +15,13 @@ int main(int argc, char* argv[]) {
   DBLOGE("This is log error with threads, stdout stderr file with indents");
   DBTRACEE("This is an error trace statement");
   auto app = mygnome::myGnomeApplication(argc, argv);
+  try {
+    throw mygnome::myGnomeException("What");
+  } catch (const std::exception& e) {
+    DBLOGE("EX: %s" , e.what());
+  } catch (...) {
+    DBLOGE("EX: dear me");
+  }
   DBRETURN(rv);
   return rv;
 }
