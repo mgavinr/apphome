@@ -1,36 +1,16 @@
 # Gnome HW
 
-Example of 
+Greetings, the software that is not licensed already is licensed under AFPL
 
 ## Compiling steps
 
-1. Create a build directory:
+1 2 3 4 5 6 6 6 6 6 6 7 8 9 1 2 3 4 5 6 6 6 6 6 6 6 7 8 9
 
-    ```
-    $ mkdir build && cd build
-    ```
+Now:
 
-2. Install dependencies (Poco -> OpenSSL -> zlib):
+1 2 3/6 3/6 3/6 3/6 3/6 3/6 3/6 4 5 6/3 6/3 6/3 6/3 6/3 6/3 7 8 9 
 
-    ```
-    $ conan install ..
-    ```
+Parralel compilation
 
-3. Configure the CMake project (Using MSVC 16 in this example):
-
-    ```
-    $ cmake .. -G "Visual Studio 16 2019"
-    ```
-
-4. Build it:
-
-    ```
-    $ cmake --build . --config Release
-    ```
-
-5. Run the application:
-
-    ```
-    $ .\bin\md5.exe
-    c3fcd3d76192e4007dfb496cca67e13b
-    ```
+Aim is to increase // further beyond a joke .. 
+(New years resolution)

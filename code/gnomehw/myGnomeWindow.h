@@ -7,7 +7,7 @@
 
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
-#include <gtkmm/applicationwindow.h>  // why clion why why the horror
+#include <gtkmm/applicationwindow.h>
 
 //
 //

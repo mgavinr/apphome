@@ -11,6 +11,7 @@
 #include "myGnomeApplication.h"
 #include "myGnomeMenuApplication.h"
 #include "myGnomeWindow.h"
+#include "myGnomeWindowTree.h"
 
 using namespace mygnome;
 
@@ -57,7 +58,7 @@ void myGnomeApplication::on_activate()
 void myGnomeApplication::create_window()
 {
   DBTRACE(G_STRFUNC);
-  auto win = new myGnomeWindow();
+  auto win = new myGnomeWindowTree();
 
   //Make sure that the application runs for as long this window is still open:
   add_window(*win);
